@@ -1,0 +1,83 @@
+<odoo>
+
+    <template id="report_gsc_report_picking" inherit_id="stock.report_picking">
+
+        <data>
+            <xpath expr="/t[1]/t[1]/t[1]/t[1]/div[1]/table[1]" position="replace">
+
+                <br/>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>
+                                <strong>Article</strong>
+                            </th>
+                            <th>
+                                <strong>N° Palette</strong>
+                            </th>
+                            <th>
+                                <strong>N° Lot</strong>
+                            </th>
+                            <th>
+                                <strong>Packing date</strong>
+                            </th>
+                            <th>
+                                <strong>BBD</strong>
+                            </th>
+                            <th>
+                                <strong>#</strong>
+                            </th>
+                            <th>
+                                <strong>Qté</strong>
+                            </th>
+                            <th>
+                                <strong>Poids brut</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.move_line_ids_without_package" t-as="sml">
+
+                            <tr>
+                                <td>
+                                    <span t-esc="sml.product_id.name"/>
+                                    <br/>
+                                </td>
+                                <td>
+                                    <span t-field="sml.result_package_id"/>
+                                    <br/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="sml.lot_id"/>
+                                </td>
+                                <td>
+                                    <span t-field="sml.packing_date"/>
+                                </td>
+                                <td>
+                                    <span t-esc="datetime.datetime.strptime(str(context_timestamp(sml.lot_id.expiration_date).strftime('%Y-%m-%d %H:%M')), '%Y-%m-%d %H:%M').strftime('%d/%m/%Y') if sml.lot_id.expiration_date else None"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="sml.subpackaging_count"/>
+                                    <span t-field="sml.subpackaging_id"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="sml.reserved_uom_qty"/>
+                                    <span t-field="sml.product_uom_id"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="sml.gross_weight"/>
+                                    <span t-field="sml.weight_uom_id"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </xpath>
+        </data>
+
+    </template>
+
+</odoo>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_inherit_gsc" model="ir.ui.view">
+        <field name="name">res.partner.form.gsc</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <data>
+
+            </data>
+        </field>
+    </record>
+
+    <record id="gsc_view_picking_form_inherited" model="ir.ui.view">
+        <field name="name">stock_picking_batch.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="location_dest_id" position="after">
+                    <field name="location_type" invisible="1"/>
+                    <field name="location_dest_type"
+                           attrs="{'invisible': [('location_type','not in', ('congelation_statique_psf','congelation_dynamique_psf'))]}"/>
+                    <field name="ship" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="lieu_chargement" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="port_chargement" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="container" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="fridge_temperature" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                </field>
+
+                <field name='origin' position="after">
+                    <field name="carrier_tracking_ref"  position="attributes">
+                        <attribute name="string">BL Ou Booking number</attribute>
+                        <attribute name="attrs">{'invisible': [('picking_type_code', 'not in', ('incoming','outgoing'))]}</attribute>
+                    </field>
+                    <field name="voyage_number" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="port_dechargement" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="notify_partner_id" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/> <!--domain="[('parent_id','=',partner_id)]" -->
+                </field>
+
+                <!--				<xpath expr="//group[1]" position="after">-->
+                <!--					<separator string="Traçabilité" attrs="{'invisible': [('is_producteur', '=', False)]}" />-->
+                <!--					<group attrs="{'invisible': [('is_producteur', '=', False)]}" >-->
+                <!--                        <group>-->
+                <!--						    <field name="harvest_date" />-->
+                <!--                            <field name="fleet_id"/>-->
+                <!--                            <field name="cin_driver" />-->
+                <!--                            <field name="count_boxs"/>-->
+                <!--                            <field name="count_pallets"/>-->
+                <!--                            <field name="weight_all_boxs_and_pallets" />-->
+                <!--                            <field name="average_weight_by_box" />-->
+                <!--                        </group>-->
+                <!--                        <group>-->
+                <!--                            <field name="farm_id"/>-->
+                <!--                            <field name="driver_id"/>-->
+                <!--                            <field name="weight_all_boxs" />-->
+                <!--                            <field name="weight_all_pallets" />-->
+                <!--                            <field name="weight_net_crop" />-->
+                <!--                            <field name="average_weight_by_pallet" />-->
+                <!--                        </group>-->
+                <!--					</group>-->
+                <!--				</xpath>-->
+
+                <xpath expr="//notebook/page/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']"
+                       position="after">
+                    <field name="subpackaging_count"
+                           attrs="{ 'column_invisible' : [('parent.picking_type_code', 'not in', ['outgoing'])]}"/>
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='extra']/group[1]" position="after">
+                    <separator string="Info expédition"
+                               attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+<!--                    <group attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}">-->
+<!--                        <group>-->
+<!--                            <field name="fridge_temperature"/>-->
+<!--                            <field name="onu"/>-->
+<!--                            <field name="nbr_origine_bl"/>-->
+<!--                            <field name="nbr_way_bill"/>-->
+<!--                            <field name="frais_empbarquement"/>-->
+<!--                            <field name="frait_debarquement"/>-->
+<!--                            <field name="frait_destination"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="imco"/>-->
+<!--                            <field name="page"/>-->
+<!--                            <field name="nbr_copie_bl"/>-->
+<!--                            <field name="transport_origine"/>-->
+<!--                            <field name="fret_maritime"/>-->
+<!--                            <field name="frait_destination"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+                    <separator string="Instructions spéciales"
+                               attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="instructions_speciales"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="view_stock_move_line_detailed_operation_tree_inherit_frozentrade" model="ir.ui.view">
+        <field name="active" eval="True"/>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="model">stock.move.line</field>
+        <field name="name">view_stock_move_line_detailed_operation_tree_inherit_frozentrade</field>
+        <field name="arch" type="xml">
+            <data>
+                <field name="result_package_id" position="after">
+                    <field name="package_id" invisible="1"/>
+                    <field name="result_package_id" invisible="1"/>
+                    <field name="subpackaging_id"/>
+                    <field name="subpackaging_count" sum="Total"/>
+                    <field name="weight_packaging" sum="Total"/>
+                    <field name="initial_gross_weight" sum="Total" attrs="{'invisible': [('initial_gross_weight', '=', 0)]}"/>
+                    <field name="gross_weight" sum="Total"/>
+                    <field name="weight_uom_id" string=" "/>
+                </field>
+            </data>
+        </field>
+    </record>
+
+</odoo>

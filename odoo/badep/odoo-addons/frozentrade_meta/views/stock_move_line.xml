@@ -1,0 +1,39 @@
+<odoo>
+
+
+    <record id="view_stock_move_line_gsc_tree" model="ir.ui.view">
+        <field name="name">stock.move.line.operation.tree.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+        <field name="arch" type="xml">
+            <field name="result_package_id" position="after">
+                <field name="subpackaging_id"/>
+                <field name="subpackaging_count" sum="Total"/>
+                <field name="weight_packaging" sum="Total"/>
+                <field name="weight_uom_id" string=" "/>
+            </field>
+            <field name="reserved_uom_qty" position="before">
+                <field name="initial_gross_weight" sum="Total" attrs="{'invisible': [('initial_gross_weight', '=', 0)]}"/>
+            </field>
+            <field name="qty_done" position="before">
+                <field name="gross_weight" sum="Total"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="frozentrade_meta_mrp_view_stock_move_line_operation_tree" model="ir.ui.view">
+        <field name="name">frozentrade_meta.mrp.stock.move.line.operations.tree</field>
+        <field name="model">stock.move.line</field>
+        <field name="mode">primary</field>
+        <field name="priority">1000</field>
+        <field name="inherit_id" ref="mrp.view_stock_move_line_operation_tree_finished" />
+        <field name="arch" type="xml">
+            <field name="lot_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="initial_gross_weight" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

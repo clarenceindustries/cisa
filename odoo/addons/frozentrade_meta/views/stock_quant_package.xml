@@ -1,0 +1,50 @@
+<odoo>
+
+    <record id="gsc_stock_quant_package_inherit_form" model="ir.ui.view">
+        <field name="name">gsc.stock.quant.package.inherit.form</field>
+        <field name="model">stock.quant.package</field>
+        <field name="inherit_id" ref="stock.view_quant_package_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="quant_ids" position="after">
+                    <group string="Info palette">
+                        <group>
+                            <field name="producteur"/>
+                            <field name="partner_ids" widget="many2many_tags"/>
+                            <field name="subpackaging_ids" widget="many2many_tags"/>
+                            <field name="subpackaging_count"/>
+                        </group>
+                        <group>
+                            <field name="net_weight"/>
+                            <field name="packaging_weight"/>
+                            <field name="weight" string="Poids brut"/>
+                        </group>
+                    </group>
+                </field>
+            </data>
+        </field>
+    </record>
+
+
+    <record id="stock_quant_view_extension" model="ir.ui.view">
+        <field name="active" eval="True"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='quantity']" position="after">
+                    <field name="producteur"/>
+                    <field name="partner_id"/>
+                    <field name="subpackaging_id"/>
+                    <field name="subpackaging_count"/>
+                    <field name="weight"/>
+                    <field name="subpackaging_weight"/>
+                    <field name="gross_weight"/>
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="stock.view_quant_package_form"/>
+        <field name="model">stock.quant.package</field>
+        <field name="name">Stock quant extension</field>
+        <field name="type">form</field>
+    </record>
+
+</odoo>

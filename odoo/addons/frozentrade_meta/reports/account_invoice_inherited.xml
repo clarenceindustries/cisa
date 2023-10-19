@@ -1,0 +1,130 @@
+<odoo>
+    <!--    <data>-->
+    <!--        <template id="report_invoice_document_inherit_gsc" inherit_id="account.report_invoice_document">-->
+    <!--            <xpath expr="//thead/tr/th[1]" position="after">-->
+    <!--                <t t-if="o.move_type == 'out_invoice'">-->
+    <!--                    <th>Nbr cartons</th>-->
+    <!--                </t>-->
+    <!--                <t t-if="o.move_type == 'in_invoice'">-->
+    <!--                    <th>Nbr caisses</th>-->
+    <!--                </t>-->
+    <!--                <th>Poids brut</th>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//t[@t-if='not line.display_type']/td[1]" position="after">-->
+    <!--                <t t-if="o.move_type in ('out_invoice','in_invoice')">-->
+    <!--                    <td>-->
+    <!--                        <span t-field="line.subpackaging_count"/>-->
+    <!--                    </td>-->
+    <!--                    <td>-->
+    <!--                        <span t-field="line.gross_weight"/>-->
+    <!--                    </td>-->
+    <!--                </t>-->
+    <!--            </xpath>-->
+
+    <!--            <div class="clearfix" position="after">-->
+
+    <!--                    <p t-if="o.move_type == 'out_invoice'" name="expedition_info">-->
+
+    <!--                                    <table class="table table-bordered" style="border: 0px" >-->
+    <!--                                        <tr style="border: 0px">-->
+    <!--                                            <td style="width: 20%; border: 0px">-->
+    <!--                                                <strong>Pays d'origine: </strong>-->
+    <!--                                            </td>-->
+    <!--                                            <td style="text-align: left;border: 0px">-->
+    <!--                                                <span t-field="o.country_id"/>-->
+    <!--                                            </td>-->
+    <!--                                        </tr>-->
+    <!--                                        <tr style="border: 0px">-->
+    <!--                                            <td style="width: 20%; border: 0px">-->
+    <!--                                                <strong>Palletisé: </strong>-->
+    <!--                                            </td>-->
+    <!--                                            <td style="text-align: left;border: 0px">-->
+    <!--                                                <span t-esc="'Oui' if o.pallitized else 'Non'"/>-->
+    <!--                                            </td>-->
+    <!--                                        </tr>-->
+    <!--                                        <tr style="border: 0px">-->
+    <!--                                            <td style="width: 20%; border: 0px">-->
+    <!--                                                <strong>Incoterm: </strong>-->
+    <!--                                            </td>-->
+    <!--                                            <td style="text-align: left;border: 0px">-->
+    <!--                                                <span t-field="o.invoice_incoterm_id.code"/> - <span t-field="o.invoice_incoterm_id.name"/>-->
+    <!--                                            </td>-->
+    <!--                                        </tr>-->
+    <!--                                    </table>-->
+    <!--                    </p>-->
+
+    <!--            </div>-->
+
+    <!--            <xpath expr="//p[@name='incoterm']" position="replace">-->
+    <!--            </xpath>-->
+
+    <!--        </template>-->
+    <!--    </data>-->
+    <!-- invoice report-->
+    <template id="gsc_invoice_external_layout">
+        <div t-attf-class="o_company_#{company.id}_layout header" t-att-style="report_header_style">
+            <div class="o_background_header">
+            <div class="float-right">
+                <h3 class="mt0 text-right" t-if="company._name == 'res.company'" t-field="company.report_header"/>
+            </div>
+            <img t-if="company._name == 'res.company' and company.logo" t-att-src="image_data_uri(company.logo)" class="float-left" alt="Logo"/>
+            <img t-if="company._name == 'res.partner' and company.image_1920" t-att-src="image_data_uri(company.image_1920)" class="float-left" alt="Logo"/>
+            <div t-if="company._name == 'res.company'" class="float-left company_address">
+                <div>
+                    <strong t-field="company.partner_id.name"/>
+                </div>
+                <span t-field="company.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: true}"/>
+            </div>
+            <div t-if="company._name == 'res.partner'" class="float-left company_address">
+                <div>
+                    <strong t-field="company.name"/>
+                </div>
+                <span t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: true}"/>
+            </div>
+            <div class="clearfix mb8"/>
+            </div>
+        </div>
+
+        <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_background" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+
+        <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">
+            <div class="text-center">
+                <ul class="list-inline">
+                    <li t-if="company.phone" class="list-inline-item"><i class="fa fa-phone" role="img" aria-label="Phone" title="Phone"/> <span class="o_force_ltr" t-field="company.phone"/></li>
+                    <li t-if="company.email" class="list-inline-item"><i class="fa fa-at" role="img" aria-label="Email" title="Email"/> <span t-field="company.email"/></li>
+                    <li t-if="company.website" class="list-inline-item"><i class="fa fa-globe" role="img" aria-label="Website" title="Website"/> <span t-field="company.website"/></li>
+                    <li t-if="company.vat" class="list-inline-item"><i class="fa fa-building-o" role="img" aria-label="Fiscal number"/><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>
+                </ul>
+                <div t-if="company._name == 'res.company'" t-field="company.report_footer"/>
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    Page:
+                    <span class="page"/>
+                    of
+                    <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="gsc_report_invoice_document" inherit_id="account.report_invoice_document">
+      <t t-call="web.external_layout" position="before">
+        <t t-if="o.move_type in ('in_invoice','in_refund')" t-set="company" t-value="o.partner_id"/>
+        <t t-if="o.move_type not in ('in_invoice','in_refund')" t-set="company" t-value="o.company_id"/>
+      </t>
+      <t t-call="web.external_layout" position="attributes">
+        <attribute t-if="o.move_type in ('in_invoice','in_refund')" name="t-call">frozentrade_meta.gsc_invoice_external_layout</attribute>
+      </t>
+      <address t-field="o.partner_id" position="attributes">
+        <attribute t-if="o.move_type in ('in_invoice','in_refund')" name="t-field">o.company_id.partner_id</attribute>
+      </address>
+      <div t-if="o.partner_id.vat" position="attributes">
+        <attribute t-if="o.move_type in ('in_invoice','in_refund')" name="t-if">o.company_id.vat</attribute>
+      </div>
+      <span t-field="o.partner_id.vat" position="attributes">
+        <attribute t-if="o.move_type in ('in_invoice','in_refund')" name="t-field">o.company_id.vat</attribute>
+      </span>
+    </template>
+</odoo>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="action_packing_list" model="ir.actions.report">
+            <field name="name">Packing List</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">frozentrade_meta.packing_list</field>
+            <field name="report_file">frozentrade_meta.packing_list</field>
+        </record>
+
+        <template id="packing_list">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <center><strong>Packing List<br/><br/></strong></center>
+
+<!--                        <t t-if="o.picking_type_id.code == 'outgoing'" >-->
+
+                            <table class="table table-bordered" style="border: 2px solid black">
+                                            <tr     style="border: 1px solid black;">
+                                                <td style="border: 1px solid black">
+                                                    <p><strong>N° Palette</strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong>N° Lot</strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong>Packing date</strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong>BBD</strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong>Nbr carton</strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong>Kg/carton</strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong>Kg/palette</strong></p>
+                                                </td>
+                                            </tr>
+
+
+                                            <t t-set="total_net_weight" t-value="0"/>
+
+                                            <tr t-foreach="o.move_line_ids_without_package" t-as="sml">
+                                                <td style="border: 1px solid black">
+                                                    <p><strong><span t-field="sml.result_package_id"/></strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong><span t-field="sml.lot_id"/></strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong><span t-field="sml.packing_date"/></strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black">
+                                                    <p><strong><span t-esc="datetime.datetime.strptime(str(context_timestamp(sml.lot_id.expiration_date).strftime('%Y-%m-%d %H:%M')), '%Y-%m-%d %H:%M').strftime('%d/%m/%Y') if sml.lot_id.expiration_date else None"/></strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black; text-align: right;">
+                                                    <p><strong><span t-field="sml.subpackaging_count"/></strong></p>
+                                                </td>
+                                                <td style="border: 1px solid black; text-align: right;">
+                                                    <t t-if="sml.subpackaging_count != 0">
+                                                        <span t-esc="round(sml.qty_done/sml.subpackaging_count,2)" />
+                                                    </t>
+                                                </td>
+                                                <td style="border: 1px solid black; text-align: right;">
+                                                    <p><strong><span t-esc="round(sml.qty_done,2)"/></strong></p>
+                                                </td>
+                                                <t t-set="total_net_weight" t-value="total_net_weight + sml.qty_done" />
+                                            </tr>
+                                            <tr     style="border: 1px solid black;">
+                                                <td colspan="4" style="border: 1px solid black">
+                                                    <p></p>
+                                                </td>
+                                                <td colspan="3" style="border: 1px solid black">
+                                                    <br/>
+                                                        <center><p><strong>POIDS NET (KG) = <span  t-esc="round(total_net_weight,2)" /></strong></p></center>
+                                                </td>
+                                            </tr>
+                            </table>
+
+                        </t>
+<!--                        </t>-->
+
+                    </t>
+                </t>
+        </template>
+
+    </data>
+</odoo>

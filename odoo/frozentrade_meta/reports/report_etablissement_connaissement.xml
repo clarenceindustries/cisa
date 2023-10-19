@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="action_etablissement_connaissement" model="ir.actions.report">
+            <field name="name">Etablissement de connaissement</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">frozentrade_meta.etablissement_connaissement</field>
+            <field name="report_file">frozentrade_meta.etablissement_connaissement</field>
+        </record>
+
+        <template id="etablissement_connaissement">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.internal_layout">
+
+                            <table class="table table-bordered table-sm" style="border: 2px solid black">
+                                    <tr style="border: 2px solid black">
+                                        <td style="border: 2px solid black; width:45%; text-align: left">
+                                            <center><u><strong>INSTRUCTIONS POUR ETABLISSEMENT DU CONNAISSEMENT</strong></u></center>
+                                        </td>
+                                    </tr>
+                            </table>
+                            <center><p style="color: red">Merci retourner ce document à notre service export dûment rempli signé et cacheté par le chargeur</p></center>
+
+                            <table class="table table-bordered table-sm" >
+                                    <tr >
+                                        <td colspan="2" style="border: 2px solid black; width:60%; text-align: left">
+                                            <strong><u>CHARGEUR</u></strong><br/>
+                                            <span t-field="o.company_id" /><br/>
+                                            <span t-field="o.company_id.street" /><br/>
+                                            <span t-field="o.company_id.city" /><br/>
+                                            <span t-field="o.company_id.country_id" /><br/>
+                                        </td>
+                                        <td style='border:none; width:10%'>
+
+                                        </td>
+                                        <td style="border: 2px solid black; width:30%; text-align: left">
+                                            <br/>
+                                            <br/>
+                                            <strong>Booking Number : <span t-field="o.carrier_tracking_ref"/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"  style="border: 2px solid black; width:60%; text-align: left">
+                                            <strong><u>CONSIGNEE</u></strong><br/>
+                                            Buyer<br/>
+                                            <span t-field="o.partner_id"/><br/>
+                                            <span t-field="o.partner_id.street"/>
+                                            <span t-field="o.partner_id.street2"/><br/>
+                                            <span t-field="o.partner_id.zip"/>
+                                            <span t-field="o.partner_id.city"/><br/>
+                                            <span t-field="o.partner_id.country_id"/>
+                                        </td>
+                                        <td style='border:none; width:10%'>
+
+                                        </td>
+                                        <td style="border: 2px solid black; width:30%; text-align: left">
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border: 2px solid black; width:60%; text-align: left">
+                                            <strong><u>NOTIFY</u></strong><br/>
+                                            Buyer<br/>
+                                            <span t-field="o.notify_partner_id"/><br/>
+                                            <span t-field="o.notify_partner_id.street"/>
+                                            <span t-field="o.notify_partner_id.street2"/><br/>
+                                            <span t-field="o.notify_partner_id.zip"/>
+                                            <span t-field="o.notify_partner_id.city"/><br/>
+                                            <span t-field="o.notify_partner_id.country_id"/><br/>
+                                            <strong>T</strong><span t-field="o.notify_partner_id.phone"/><br/>
+                                            <strong>M</strong><span t-field="o.notify_partner_id.mobile"/><br/>
+                                        </td>
+                                        <td style='border:0px; width:10%'>
+
+                                        </td>
+                                        <td style='border:0px; width:30%'>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 2px solid black; text-align: left; width:30%">
+                                            <strong>NAVIRE</strong><br/>
+                                            <span t-field="o.ship" />
+                                        </td>
+                                        <td style="border: 2px solid black; text-align: left; width:30%">
+                                            <strong>Voy N°</strong><br/>
+                                            <span t-field="o.voyage_number" />
+                                        </td>
+                                        <td style='border:0px; width:10%'>
+
+                                        </td>
+                                        <td style='border:0px; width:30%'>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border: 2px solid black; text-align: left; width:60%">
+                                            <strong>Lieu de chargement</strong><br/>
+                                            <span t-field="o.lieu_chargement" />
+                                        </td>
+                                        <td colspan="2" style="border: 2px solid black; text-align: left; width:40%">
+                                            <strong>Port de déchargement</strong><br/>
+                                            <span t-field="o.port_chargement" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border: 2px solid black; text-align: left; width:60%">
+                                            <strong>Port de chargement</strong><br/>
+                                            <span t-field="o.port_dechargement" />
+                                        </td>
+                                        <td colspan="2" style="border: 2px solid black; text-align: left; width:40%">
+                                            <strong>Destination Finale</strong><br/>
+                                            <span t-field="o.partner_id" />
+                                        </td>
+                                    </tr>
+                            </table>
+
+                            <table class="table table-bordered table-sm" style="border: 2px solid black">
+                                 <tr style="border: 2px solid black">
+                                     <td style="border: 2px solid black; width:20%">
+                                         <center><strong>Marque et N° de conteneur</strong></center>
+                                     </td>
+                                     <td style="border: 2px solid black; width:10%">
+                                         <center><strong>Nombre de colis</strong></center>
+                                     </td>
+                                     <td style="border: 2px solid black; width:40%">
+                                         <center><strong>Désignation de Marchandise</strong></center>
+                                     </td>
+                                     <td style="border: 2px solid black; width:10%">
+                                         <center><strong>HS CODE</strong></center>
+                                     </td>
+                                     <td style="border: 2px solid black; width:20%">
+                                         <center><strong>Poids brut</strong></center>
+                                     </td>
+                                 </tr>
+                                 <tr style="border: 2px solid black">
+                                     <td style="border: 2px solid black;width:20%; text-align: left">
+                                            <span t-field="o.container" />
+                                     </td>
+                                     <td style="border: 2px solid black; width:10%; text-align: right">
+                                         <t t-foreach="o.move_ids_without_package" t-as="sm">
+                                            <span t-esc="sm.subpackaging_count" /><br/>
+                                         </t>
+                                     </td>
+                                     <td style="border: 2px solid black; width:10%; text-align: left">
+                                         <t t-foreach="o.move_ids_without_package" t-as="sm">
+                                            <span t-esc="sm.product_id.name" /><br/>
+                                         </t>
+                                     </td>
+                                     <td style="border: 2px solid black; width:10%; text-align: right">
+                                         <t t-foreach="o.move_ids_without_package" t-as="sm">
+                                            <span t-field="sm.product_id.hs_code" /><br/>
+                                         </t>
+                                     </td>
+                                     <td style="border: 2px solid black; width:20%; text-align: right">
+                                         <t t-foreach="o.move_ids_without_package" t-as="sm">
+                                            <span t-esc="round((sm.quantity_done if sm.quantity_done > 0 else sm.product_uom_qty),2)" /><br/>
+                                         </t>
+                                     </td>
+                                 </tr>
+                            </table>
+
+                            <table class="table table-bordered table-sm">
+                                 <tr style="border: 2px solid black">
+                                     <td style="border: 2px solid black; width:25%; text-align: left">
+                                         <strong><p>Température:  <span t-field="o.fridge_temperature"/></p></strong>
+                                     </td>
+                                     <td style="border: 2px solid black; width:75%; text-align: left">
+                                         <center><strong>Détail Marchandise Dangereuse</strong></center>
+                                     </td>
+                                 </tr>
+                                 <tr style="border: 2px solid black">
+                                     <td style="border: 2px solid black; width:25%; text-align: left">
+                                         <strong><u>Nbre Originaux B/L:</u></strong>
+                                     </td>
+                                     <td style="border: 2px solid black; width:75%; text-align: left">
+                                         <strong><u>Facturation:</u></strong>
+                                     </td>
+                                 </tr>
+                                 <tr style="border: 2px solid black">
+                                     <td colspan="2" style="text-align: left">
+                                         <strong>Instructions spéciales</strong>
+                                         <p><span t-field="o.instructions_speciales" /></p>
+                                     </td>
+                                 </tr>
+                            </table>
+
+                            <table class="table table-bordered table-sm" style="border: 0px">
+                                 <tr style="border: 0px; text-align: left">
+
+                                     <td style="border: 0px; width:75%; text-align: left">
+                                        <p style="font-size: 9px">
+                                            <strong>N.B.:</strong>
+                                            Toute rectification requise aux données du B/L doit etre revendiquée avant la production des originaux et ce à la reception et verification de la copie provisoire.<br/>
+                                            Toute demande de modification aprés l’accord d’impression des B/L originaux sera facturée aux termes de frais de corrector :500 dhs HT/par correction
+                                        </p>
+                                     </td>
+                                     <td style="border: 0px; width:25%; text-align: left">
+                                            <strong>Cachet et Signature</strong>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                     </td>
+
+                                 </tr>
+                            </table>
+
+                        </t>
+
+                    </t>
+                </t>
+        </template>
+
+    </data>
+</odoo>

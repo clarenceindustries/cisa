@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="purchase_order_form_inherit_for_add_sale_id">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase_stock.purchase_order_view_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']/button[@name='action_view_picking']" position="attributes">
+                <attribute name="attrs">{'invisible': [('incoming_picking_count','=',0)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_stock_picking_extended_for_add_create_po_btn">
+        <field name="name">stock.picking.for.create.po.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="create_po_btn" class="oe_highlight" type="object" id="create_po_btn" string="Créer BC"
+                        attrs="{ 'invisible' : ['|','|','|',('partner_id','=',False),('picking_type_code', '!=', 'incoming'),('state', '!=', 'done'),('purchase_id','!=', False)]}"/>
+            </xpath>
+            <div name="button_box" position="inside">
+                <button type="object" name="action_view_purchase_order"
+                        class="oe_stat_button" groups="purchase.group_purchase_user" string="Bon de commande"
+                        icon="fa-shopping-cart" attrs="{'invisible':[('purchase_id','!=', False)]}">
+                </button>
+            </div>
+            <field name="origin" position="after">
+                <field name="purchase_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+</odoo>

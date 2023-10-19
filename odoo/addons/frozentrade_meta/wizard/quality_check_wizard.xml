@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <record id="view_quality_check_wizard_inherit_frozentrade" model="ir.ui.view">
+            <field name="name">view_quality_check_wizard_inherit_frozentrade</field>
+            <field name="model">quality.check.wizard</field>
+            <field name="inherit_id" ref="quality_control.view_quality_check_wizard"/>
+            <field name="arch" type="xml">
+                <field name="lot_line_id" position='after'>
+                    <field name="package_id" attrs="{'invisible': [('package_id', '=', False)]}"/>
+                    <field name="result_package_id" attrs="{'invisible': [('result_package_id', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

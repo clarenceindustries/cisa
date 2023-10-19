@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="action_palette_expedition" model="ir.actions.report">
+            <field name="name">Palette expédition</field>
+            <field name="model">stock.quant.package</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">frozentrade_meta.palette_expedition</field>
+            <field name="report_file">frozentrade_meta.palette_expedition</field>
+        </record>
+
+        <template id="palette_expedition">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <center><strong>Fiche palette expédition<br/><br/></strong></center>
+
+                        <table class="table table-bordered" style="border: 0px">
+                            <tr style="border: 0px">
+                                <td style="border: 0px; width:33%">
+                                    <center>
+                                        <strong>Palette</strong>
+                                    </center>
+                                </td>
+                                <td style="border: 0px; width:33%">
+                                    <center>
+                                        <strong>Date</strong>
+                                    </center>
+                                </td>
+                                <td style="border: 0px; width:33%">
+                                    <center>
+                                        <strong>Produit</strong>
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr style="border: 0px">
+                                <td style="border: 0px; width:33%">
+                                    <center>
+                                        <span t-field="o.name"/>
+                                    </center>
+                                </td>
+                                <td style="border: 0px; width:33%">
+                                    <center>
+                                        <span t-esc="datetime.datetime.strptime(str(context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')), '%Y-%m-%d %H:%M').strftime('%d/%m/%Y')"/>
+                                    </center>
+                                </td>
+                                <td style="border: 0px; width:33%">
+                                    <center>
+                                        <span t-esc="o.quant_ids[0].product_id.name if o.quant_ids else None"/>
+                                    </center>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered" style="border: 0px solid black">
+                            <tr style="border: 1px solid black;">
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>AGRICODE</strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>NOMBRE DE CARTON</strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>N° LOT</strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>POIDS NET</strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>POIDS BRUT SANS PALETTE</strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>DATE DE PRODUCTION</strong>
+                                    </p>
+                                </td>
+                            </tr>
+
+
+                            <t t-set="total_weight" t-value="0"/>
+
+                            <tr t-foreach="o.quant_ids" t-as="sqp">
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="sqp.producteur"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="sqp.subpackaging_count"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="sqp.lot_id"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="sqp.weight"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="sqp.gross_weight"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="sqp.lot_id.packing_date"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr  style="border: 0px solid black">
+                               <td colspan="6" style="border: 0px solid black">
+                               </td>
+                            </tr>
+                            <tr  style="border: 1px solid black">
+                               <td style="border: 1px solid black; text-align: right">
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>
+                                            TOTAL CSS/CARTON
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>
+                                            TOTAL POIDS NET
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p>
+                                        <strong>
+                                            TOTAL POIDS BRUT AVEC PALETTE
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                </td>
+                            </tr>
+                            <tr  style="border: 1px solid black">
+                               <td style="border: 1px solid black; text-align: right">
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="o.subpackaging_count"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                    <p>
+                                        <strong>
+                                            <span t-field="o.net_weight"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black">
+                                    <p style="text-align: right">
+                                        <strong>
+                                            <span t-field="o.weight"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="border: 1px solid black; text-align: right">
+                                </td>
+                            </tr>
+                        </table>
+
+                    </t>
+
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

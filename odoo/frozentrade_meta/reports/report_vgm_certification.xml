@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="action_vgm_certification" model="ir.actions.report">
+            <field name="name">Certification VGM</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">frozentrade_meta.vgm_certification</field>
+            <field name="report_file">frozentrade_meta.vgm_certification</field>
+        </record>
+
+        <template id="vgm_certification">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.internal_layout">
+                            <br/>
+                            <br/>
+                            <br/>
+                            <center><strong><u>SOLAS – Verified Gross Mass Certificate</u><br/><br/></strong></center>
+
+                            <table class="table table-bordered" style="border: 2px solid black">
+                                    <tr style="border: 2px solid black">
+                                        <td style="border: 2px solid black; width:50%; text-align: left">
+                                            <strong>Shippers Information:</strong><br/>
+                                            <strong>Company Name</strong><br/>
+                                            <strong>Authorized Persons Name in Capital Letters</strong><br/><br/>
+                                            <strong>Contact Information (Phone or Email)</strong><br/>
+                                        </td>
+                                        <td style="border: 2px solid black; width:50%; text-align: left">
+                                            <br/>
+                                            <span t-field="o.company_id" />
+                                            <p>Mr. ISMAIL HADDOUR</p>
+                                            <p>00212661051811</p>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 2px solid black">
+                                        <td style="border: 2px solid black; width:50%; text-align: left">
+                                            <strong>Booking number</strong>
+                                        </td>
+                                        <td style="border: 2px solid black; width:50%; text-align: left">
+                                            <span t-field="o.carrier_tracking_ref"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 2px solid black">
+                                        <td style="border: 2px solid black; width:50%; text-align: left">
+                                            <strong>Method used</strong><br/>
+                                            <strong>Method 1</strong> – Actual weighing of the packed and sealed container<br/>
+                                            <strong>Method 2</strong> – Adding the weight of the packages and cargo itemsIncludingpallets, dunnage, etc to the tare weigh of the container<br/>
+                                        </td>
+                                        <td style="border: 2px solid black; width:50%; text-align: left">
+                                            Select one:<br/>
+                                                <input type="checkbox" id="checkbox_method_1"/>
+                                            <br/>
+                                            <br/>
+                                                <input type="checkbox" id="checkbox_method_2"/>
+                                        </td>
+                                    </tr>
+                                        <tr style="border: 2px solid black">
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                <strong>VGM Weight Unit of Measure:</strong>
+                                            </td>
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                Select one:<br/>
+                                                    <input type="checkbox" id="checkbox_kg" checked="checked"/> KGS
+                                                    <input type="checkbox" id="checkbox_not_kg" />
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 2px solid black">
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                <strong>Container Number</strong>
+                                            </td>
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                <strong>VGM Weight</strong>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 2px solid black">
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                <span t-field="o.container"/>
+                                            </td>
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                <span t-field="o.shipping_weight"/> KG
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 2px solid black">
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                            </td>
+                                            <td style="border: 2px solid black; width:50%; text-align: left">
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                            </table>
+
+                            <p>
+                                <strong>Upon completion of container loading, please send this fully completed form, before the advised VGM cut-off date and time.</strong><br/>
+                                I hereby declare that I am an authorized signatory of Shipper and that the information is true and correct for each individual container mentioned
+                                above. Shipper shall indemnify ARKAS MAROC against all loss, damage or expense resulting from the inaccuracy or inadequacy of the above
+                                information.<br/>
+                                For more information, please refer to the IMO's Guidelines on SOLAS
+                            </p>
+
+
+                        </t>
+
+                    </t>
+                </t>
+        </template>
+
+    </data>
+</odoo>

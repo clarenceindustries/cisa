@@ -1,0 +1,49 @@
+<odoo>
+
+    <record id="view_mrp_production_batch_form" model="ir.ui.view">
+        <field name="name">mrp.production.batch.form</field>
+        <field name="model">mrp.production.batch</field>
+        <field name="inherit_id" ref="mrp_production_batch.mrp_production_batch_form_view" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                  <field name="product_category_id" />
+                  <field name="prct_rendement" />
+                  <!-- <field name="disponible_pm" readonly="1"/>
+                  <field name="qty_production" />
+                  <field name="dechets" /> -->
+            </field>
+            <!-- <field name="origin" position="after">
+                  <field name="perte" />
+            </field> -->
+            <page name="move_byproduct_ids" position="before">
+
+                <page string="Produits finis" name="finished_products">
+                    <field name="move_finished_ids" readonly="1"
+                           options="{'delete': [('state', '=', 'draft')]}">
+                        <tree create="0" delete="0">
+                            <field name="production_id" force_save="1" required="1" readonly="1"/>
+                            <field name="product_id" force_save="1" required="1"/>
+                            <field name="location_id" groups="stock.group_stock_multi_locations"
+                                   optional="show"/>
+                            <field name="location_dest_id"/>
+                            <field name="product_uom"/>
+                            <field name="product_uom_qty"/>
+                            <field name="quantity_done"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="has_tracking" invisible="1"/>
+                            <field name="show_details_visible" invisible="1"/>
+                            <button name="action_show_details" type="object" title="Show Details" icon="fa-list"
+                                    context="{'default_product_uom_qty': 0}"
+                                    attrs="{'invisible': ['|', ('show_details_visible', '=', False), ('has_tracking', '=','none')]}"
+                                    options="{&quot;warn&quot;: true}"/>
+                            <button class="o_optional_button btn btn-light" name="action_show_details" type="object"
+                                    title="Show Details" icon="fa-list" context="{'default_product_uom_qty': 0}"
+                                    attrs="{'invisible': ['|', ('has_tracking', '!=','none'), ('show_details_visible', '=', False)]}"
+                                    options="{&quot;warn&quot;: true}"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

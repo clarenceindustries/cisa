@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+# access_manager_gsc_farm,access_manager_gsc_farm,model_gsc_farm,stock.group_stock_user,1,1,1,1
+# access_manager_gsc_fleet,access_manager_gsc_fleet,model_gsc_fleet,stock.group_stock_user,1,1,1,1
+# access_manager_gsc_driver,access_manager_gsc_driver,model_gsc_driver,stock.group_stock_user,1,1,1,1
